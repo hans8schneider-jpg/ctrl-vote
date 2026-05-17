@@ -193,7 +193,7 @@ if (ne > ano) return { text: ‘ZAMÍTNUTO’, cls: ‘result-zamitnout’ }
 return { text: ‘NEROZHODNUTO’, cls: ‘result-nerozhodnut’ }
 }
 
-// ── PDF EXPORT ────────────────────────────────────────────────────────────────
+// – PDF EXPORT –
 const generatePDF = (session, polls, speakers, agenda, participants) => {
 const now = new Date()
 const dateStr = now.toLocaleDateString(‘cs-CZ’, { day: ‘numeric’, month: ‘long’, year: ‘numeric’ })
@@ -206,7 +206,7 @@ const html = `<!DOCTYPE html>
 <html lang="cs">
 <head>
 <meta charset="utf-8">
-<title>Protokol — ${session.title}</title>
+<title>Protokol - ${session.title}</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Arial', sans-serif; color: #111; background: #fff; padding: 40px; font-size: 13px; line-height: 1.5; }
@@ -248,7 +248,7 @@ const html = `<!DOCTYPE html>
   <div class="header-logo">[<span>CTRL</span>]</div>
   <div class="header-title">Protokol z konference</div>
   <div style="font-size:18px; font-weight:800; margin:6px 0;">${session.title}</div>
-  <div class="header-meta">Datum: ${dateStr} · Čas vygenerování: ${timeStr} · PIN: ${session.pin}</div>
+  <div class="header-meta">Datum: ${dateStr} . Čas vygenerování: ${timeStr} . PIN: ${session.pin}</div>
 </div>
 
 <div class="section">
@@ -313,7 +313,7 @@ ${doneSpeakers.length > 0 ? `
 </div>
 
 <div class="footer">
-  <span>CTRL Europe Team — Hlasovací systém</span>
+  <span>CTRL Europe Team - Hlasovací systém</span>
   <span>Vygenerováno: ${dateStr} v ${timeStr}</span>
 </div>
 </body>
@@ -325,7 +325,7 @@ win.document.close()
 setTimeout(() => win.print(), 500)
 }
 
-// ── ENTRY ─────────────────────────────────────────────────────────────────────
+// – ENTRY –
 function EntryScreen({ onParticipant, onModerator, onDisplay }) {
 const [tab, setTab] = useState(‘participant’)
 const [name, setName] = useState(’’)
@@ -366,7 +366,7 @@ return (
 <div className="entry-wrap">
 <div className="entry-box">
 <div className="entry-logo">[<span>CTRL</span>]</div>
-<div className="entry-sub">Hlasovací systém · Conference</div>
+<div className="entry-sub">Hlasovací systém . Conference</div>
 <div className="entry-tabs">
 {[[‘participant’,‘Účastník’],[‘display’,‘Obrazovka’],[‘moderator’,‘Moderátor’]].map(([id,label]) => (
 <div key={id} className={`entry-tab${tab===id?' active':''}`} onClick={() => { setTab(id); setError(’’) }}>{label}</div>
@@ -378,7 +378,7 @@ return (
 <input className=“entry-input” placeholder=“Jan Novák” value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key===‘Enter’ && joinAsParticipant()} />
 <div className="entry-label">PIN konference</div>
 <input className=“entry-input” placeholder=“XXXX” value={pin} onChange={e => setPin(e.target.value.toUpperCase())} onKeyDown={e => e.key===‘Enter’ && joinAsParticipant()} style={{ letterSpacing:4, fontSize:20, textAlign:‘center’ }} />
-<button className="entry-btn entry-btn-primary" onClick={joinAsParticipant} disabled={loading}>{loading ? ‘PŘIPOJUJI…’ : ‘VSTOUPIT →’}</button>
+<button className="entry-btn entry-btn-primary" onClick={joinAsParticipant} disabled={loading}>{loading ? ‘PŘIPOJUJI…’ : ‘VSTOUPIT >’}</button>
 </div>
 )}
 {tab === ‘display’ && (
@@ -388,14 +388,14 @@ return (
 <option value="">– Vyber konferenci –</option>
 {sessions.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
 </select>
-<button className="entry-btn entry-btn-primary" onClick={openDisplay}>OTEVŘÍT OBRAZOVKU →</button>
+<button className="entry-btn entry-btn-primary" onClick={openDisplay}>OTEVŘÍT OBRAZOVKU ></button>
 </div>
 )}
 {tab === ‘moderator’ && (
 <div className="fade-in">
 <div className="entry-label">Heslo moderátora</div>
-<input className=“entry-input” type=“password” placeholder=”••••••••••” value={modPass} onChange={e => setModPass(e.target.value)} onKeyDown={e => e.key===‘Enter’ && joinAsModerator()} />
-<button className="entry-btn entry-btn-primary" onClick={joinAsModerator}>VSTOUPIT JAKO MODERÁTOR →</button>
+<input className=“entry-input” type=“password” placeholder=”**********” value={modPass} onChange={e => setModPass(e.target.value)} onKeyDown={e => e.key===‘Enter’ && joinAsModerator()} />
+<button className="entry-btn entry-btn-primary" onClick={joinAsModerator}>VSTOUPIT JAKO MODERÁTOR ></button>
 </div>
 )}
 {error && <div className="entry-err">{error}</div>}
@@ -404,7 +404,7 @@ return (
 )
 }
 
-// ── PARTICIPANT ───────────────────────────────────────────────────────────────
+// – PARTICIPANT –
 function ParticipantView({ session, participant }) {
 const [polls, setPolls] = useState([])
 const [myVotes, setMyVotes] = useState({})
@@ -467,7 +467,7 @@ if (sessionClosed) return (
 <>
 <style>{css}</style>
 <div className=“called-screen” style={{ background: G.bg }}>
-<div style={{ fontSize: 60, marginBottom: 20 }}>🏁</div>
+<div style={{ fontSize: 60, marginBottom: 20 }}></div>
 <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Konference ukončena</div>
 <div style={{ color: G.text2, fontFamily: ‘JetBrains Mono, monospace’, fontSize: 13 }}>Děkujeme za účast</div>
 </div>
@@ -478,10 +478,10 @@ if (isCalled) return (
 <>
 <style>{css}</style>
 <div className="called-screen">
-<div className="called-icon">🎤</div>
+<div className="called-icon"></div>
 <div className="called-title">Jsi vyvolán!</div>
 <div className="called-name">{participant.name}</div>
-<div className="called-hint">Začni mluvit — moderátor spustí časomíru</div>
+<div className="called-hint">Začni mluvit - moderátor spustí časomíru</div>
 <button className=“btn btn-g” style={{ marginTop: 32 }} onClick={() => setIsCalled(false)}>Zpět</button>
 </div>
 </>
@@ -514,14 +514,14 @@ return (
 {activePolls.map(poll => (
 <div key={poll.id} className="vote-card active-vote">
 <div style={{ fontFamily:‘JetBrains Mono,monospace’, fontSize:9, color:G.accent, letterSpacing:2, textTransform:‘uppercase’, marginBottom:8 }}>
-<span style={{ animation:‘pulse 1s infinite’, display:‘inline-block’ }}>●</span> AKTIVNÍ HLASOVÁNÍ
+<span style={{ animation:‘pulse 1s infinite’, display:‘inline-block’ }}>*</span> AKTIVNÍ HLASOVÁNÍ
 </div>
 <div className="vote-question">{poll.question}</div>
 {myVotes[poll.id] ? (
-<div className="vote-voted">✓ Hlasoval/a jsi: {myVotes[poll.id].toUpperCase().replace(’_SE’,’’)}</div>
+<div className="vote-voted">v Hlasoval/a jsi: {myVotes[poll.id].toUpperCase().replace(’_SE’,’’)}</div>
 ) : (
 <div className="vote-buttons">
-{[[‘ano’,‘ANO ✓’,‘vote-btn-ano’],[‘ne’,‘NE ✗’,‘vote-btn-ne’],[‘zdrzuji_se’,‘ZDRŽUJI SE’,‘vote-btn-zdrzuji’]].map(([val,label,cls]) => (
+{[[‘ano’,‘ANO v’,‘vote-btn-ano’],[‘ne’,‘NE x’,‘vote-btn-ne’],[‘zdrzuji_se’,‘ZDRŽUJI SE’,‘vote-btn-zdrzuji’]].map(([val,label,cls]) => (
 <button key={val} className={`vote-btn ${cls}`} onClick={() => castVote(poll.id, val)}>{label}</button>
 ))}
 </div>
@@ -531,7 +531,7 @@ return (
 <div className="speaker-card">
 <div className="sec">REAKCE</div>
 <div className="reaction-bar">
-{[[‘👍’,‘souhlas’],[‘✋’,‘namitka’],[‘❓’,‘otazka’]].map(([icon,type]) => (
+{[[’’,‘souhlas’],[’’,‘namitka’],[’’,‘otazka’]].map(([icon,type]) => (
 <button key={type} className={`reaction-btn${myReaction===type?' active-reaction':''}`} onClick={() => sendReaction(type)}>{icon}</button>
 ))}
 {myReaction && <button className=“btn btn-g” style={{ fontSize:11 }} onClick={() => sendReaction(null)}>Zrušit</button>}
@@ -549,10 +549,10 @@ showSpeakerForm ? (
 </div>
 </div>
 ) : (
-<button className=“btn btn-p btn-full” onClick={() => setShowSpeakerForm(true)}>✋ PŘIHLÁSIT SE O SLOVO</button>
+<button className=“btn btn-p btn-full” onClick={() => setShowSpeakerForm(true)}> PŘIHLÁSIT SE O SLOVO</button>
 )
 ) : (
-<div style={{ fontFamily:‘JetBrains Mono,monospace’, fontSize:12, color:G.warning, padding:‘12px 0’ }}>⌛ Jsi v pořadí — čekej na vyvolání</div>
+<div style={{ fontFamily:‘JetBrains Mono,monospace’, fontSize:12, color:G.warning, padding:‘12px 0’ }}>… Jsi v pořadí - čekej na vyvolání</div>
 )}
 {waitingSpeakers.length > 0 && (
 <div style={{ marginTop:16 }}>
@@ -596,7 +596,7 @@ return (
 )
 }
 
-// ── DISPLAY ───────────────────────────────────────────────────────────────────
+// – DISPLAY –
 function DisplayScreen({ session }) {
 const [polls, setPolls] = useState([])
 const [speakers, setSpeakers] = useState([])
@@ -737,7 +737,7 @@ return (
 )}
 {calledSpeaker && (
 <div className="display-called-card">
-<div className="display-called-label">🎤 Právě mluví</div>
+<div className="display-called-label"> Právě mluví</div>
 <div className="display-called-name">{calledSpeaker.name}</div>
 {calledSpeaker.note && <div style={{ fontSize:16, color:G.text2, fontStyle:‘italic’ }}>”{calledSpeaker.note}”</div>}
 <div className={`timer-display ${timerColor}`}>{formatTimer(timerSeconds)}</div>
@@ -746,7 +746,7 @@ return (
 {activePoll && (
 <div className=“result-card” style={{ border:`1px solid ${G.accent}`, boxShadow:‘0 0 20px rgba(42,107,255,0.1)’ }}>
 <div style={{ fontFamily:‘JetBrains Mono,monospace’, fontSize:10, color:G.accent, letterSpacing:3, textTransform:‘uppercase’, marginBottom:12 }}>
-<span style={{ animation:‘pulse 1s infinite’, display:‘inline-block’ }}>●</span> AKTIVNÍ HLASOVÁNÍ · {(activePoll.vote_responses||[]).length} hlasů
+<span style={{ animation:‘pulse 1s infinite’, display:‘inline-block’ }}>*</span> AKTIVNÍ HLASOVÁNÍ . {(activePoll.vote_responses||[]).length} hlasů
 </div>
 <div className="result-question">{activePoll.question}</div>
 {[[‘ano’,G.success,‘ANO’],[‘ne’,G.danger,‘NE’],[‘zdrzuji_se’,G.warning,‘ZDRŽEL SE’]].map(([type,color,label]) => (
@@ -792,7 +792,7 @@ return (
 <div className="reactions-display">
 {reactions.map(r => (
 <div key={r.id} className="reaction-pill">
-<span style={{ fontSize:18 }}>{r.reaction===‘souhlas’?‘👍’:r.reaction===‘namitka’?‘✋’:‘❓’}</span>
+<span style={{ fontSize:18 }}>{r.reaction===‘souhlas’?’’:r.reaction===‘namitka’?’’:’’}</span>
 <span style={{ fontSize:12, color:G.text2 }}>{r.name}</span>
 </div>
 ))}
@@ -826,7 +826,7 @@ return (
 )
 }
 
-// ── MODERATOR ─────────────────────────────────────────────────────────────────
+// – MODERATOR –
 function ModeratorView() {
 const [sessions, setSessions] = useState([])
 const [activeSession, setActiveSession] = useState(null)
@@ -964,7 +964,7 @@ if (!activeSession) return (
 <div className="sec">NOVÁ KONFERENCE</div>
 <input className=“fi” placeholder=“Název konference…” value={newSession.title} onChange={e => setNewSession(p => ({ …p, title: e.target.value }))} />
 <input className=“fi” placeholder=“PIN pro účastníky (např. CTRL)” value={newSession.pin} onChange={e => setNewSession(p => ({ …p, pin: e.target.value.toUpperCase() }))} style={{ letterSpacing:4, fontSize:18 }} />
-<button className="btn btn-p" onClick={createSession}>VYTVOŘIT KONFERENCI →</button>
+<button className="btn btn-p" onClick={createSession}>VYTVOŘIT KONFERENCI ></button>
 {sessions.length > 0 && (
 <div style={{ marginTop:28 }}>
 <div className="sec">EXISTUJÍCÍ KONFERENCE</div>
@@ -977,7 +977,7 @@ if (!activeSession) return (
 <span style={{ fontFamily:‘JetBrains Mono,monospace’, fontSize:9, padding:‘3px 8px’, background:s.active?‘rgba(0,229,160,0.1)’:G.panel2, color:s.active?G.success:G.text3, letterSpacing:1 }}>
 {s.active ? ‘AKTIVNÍ’ : ‘UKONČENÁ’}
 </span>
-<span style={{ color:G.accent, fontSize:18 }}>→</span>
+<span style={{ color:G.accent, fontSize:18 }}>></span>
 </div>
 ))}
 </div>
@@ -1000,8 +1000,8 @@ return (
 <div className="participants-dot" />
 <span className="participants-count">{participants.length} účastníků</span>
 </div>
-<button className=“btn btn-g” style={{ fontSize:10 }} onClick={() => setActiveSession(null)}>← Zpět</button>
-<button className=“btn btn-d” style={{ fontSize:10 }} onClick={closeSession}>■ UKONČIT KONFERENCI</button>
+<button className=“btn btn-g” style={{ fontSize:10 }} onClick={() => setActiveSession(null)}>< Zpět</button>
+<button className=“btn btn-d” style={{ fontSize:10 }} onClick={closeSession}>stop UKONČIT KONFERENCI</button>
 </div>
 
 ```
@@ -1013,7 +1013,7 @@ return (
             <div className="mod-title">REAKCE PUBLIKA ({reactions.length})</div>
             {reactions.map(r => (
               <div key={r.id} className="reaction-mod-item">
-                <span style={{ fontSize:18 }}>{r.reaction==='souhlas'?'👍':r.reaction==='namitka'?'✋':'❓'}</span>
+                <span style={{ fontSize:18 }}>{r.reaction==='souhlas'?'':r.reaction==='namitka'?'':''}</span>
                 <span style={{ fontSize:13, fontWeight:600 }}>{r.name}</span>
                 <span style={{ fontSize:11, color:G.text2, marginLeft:'auto' }}>{r.reaction==='souhlas'?'Souhlas':r.reaction==='namitka'?'Námitka':'Otázka'}</span>
               </div>
@@ -1045,8 +1045,8 @@ return (
                   </div>
                   {res && <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:11, fontWeight:700, marginBottom:8 }} className={res.cls}>{res.text}</div>}
                   <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-                    {poll.status==='waiting' && <button className="btn btn-s" style={{ fontSize:10 }} onClick={() => setPollStatus(poll.id,'active')}>▶ SPUSTIT</button>}
-                    {poll.status==='active' && <button className="btn btn-d" style={{ fontSize:10 }} onClick={() => setPollStatus(poll.id,'closed')}>■ UKONČIT</button>}
+                    {poll.status==='waiting' && <button className="btn btn-s" style={{ fontSize:10 }} onClick={() => setPollStatus(poll.id,'active')}>> SPUSTIT</button>}
+                    {poll.status==='active' && <button className="btn btn-d" style={{ fontSize:10 }} onClick={() => setPollStatus(poll.id,'closed')}>stop UKONČIT</button>}
                     {poll.status==='closed' && <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:G.text3, padding:'10px 0' }}>UZAVŘENO</span>}
                   </div>
                 </div>
@@ -1082,15 +1082,15 @@ return (
           <div className="mod-title">ČASOMÍRA</div>
           {calledSpeaker && (
             <div style={{ textAlign:'center', marginBottom:16, padding:16, background:'rgba(0,229,160,0.05)', border:`1px solid rgba(0,229,160,0.2)` }}>
-              <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:G.success, letterSpacing:2, marginBottom:6 }}>🎤 VYVOLÁN</div>
+              <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:G.success, letterSpacing:2, marginBottom:6 }}> VYVOLÁN</div>
               <div style={{ fontSize:18, fontWeight:700, color:G.success }}>{calledSpeaker.name}</div>
             </div>
           )}
           <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:64, fontWeight:700, textAlign:'center', margin:'16px 0', color:timerColor }}>{formatTimer(timer)}</div>
           <div style={{ display:'flex', gap:8, justifyContent:'center', marginBottom:12, flexWrap:'wrap' }}>
-            <button className="btn btn-s" onClick={startTimer} disabled={timerRunning}>▶ START</button>
-            <button className="btn btn-w" onClick={pauseTimer}>⏸ PAUZA</button>
-            <button className="btn btn-g" onClick={resetTimer}>↺ RESET</button>
+            <button className="btn btn-s" onClick={startTimer} disabled={timerRunning}>> START</button>
+            <button className="btn btn-w" onClick={pauseTimer}>|| PAUZA</button>
+            <button className="btn btn-g" onClick={resetTimer}>reset RESET</button>
           </div>
           <div style={{ display:'flex', gap:8, alignItems:'center', flexWrap:'wrap' }}>
             <input className="fi" type="number" value={timerInput} onChange={e => setTimerInput(parseInt(e.target.value)||120)} style={{ maxWidth:80, marginBottom:0, textAlign:'center' }} />
@@ -1121,14 +1121,14 @@ return (
             <div style={{ padding:'14px 18px', background:'rgba(0,229,160,0.05)', border:`2px solid ${G.success}`, marginBottom:8 }}>
               <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:9, color:G.success, letterSpacing:2, marginBottom:6 }}>PRÁVĚ MLUVÍ</div>
               <div style={{ fontSize:15, fontWeight:700, marginBottom:10 }}>{calledSpeaker.name}</div>
-              <button className="done-btn" onClick={() => doneSpeaker(calledSpeaker.id)}>✓ DOKONČIT</button>
+              <button className="done-btn" onClick={() => doneSpeaker(calledSpeaker.id)}>v DOKONČIT</button>
             </div>
           )}
           {speakers.filter(s=>s.status==='done').length > 0 && (
             <div style={{ marginTop:16 }}>
               <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:9, color:G.text3, letterSpacing:2, marginBottom:8 }}>MLUVILI</div>
               {speakers.filter(s=>s.status==='done').map(s => (
-                <div key={s.id} style={{ padding:'8px 14px', color:G.text3, fontSize:12, fontFamily:'JetBrains Mono,monospace', borderLeft:`2px solid ${G.border}`, marginBottom:4 }}>✓ {s.name}</div>
+                <div key={s.id} style={{ padding:'8px 14px', color:G.text3, fontSize:12, fontFamily:'JetBrains Mono,monospace', borderLeft:`2px solid ${G.border}`, marginBottom:4 }}>v {s.name}</div>
               ))}
             </div>
           )}
@@ -1142,7 +1142,7 @@ return (
 )
 }
 
-// ── MAIN ──────────────────────────────────────────────────────────────────────
+// – MAIN –
 export default function App() {
 const [view, setView] = useState(‘entry’)
 const [sessionData, setSessionData] = useState(null)
